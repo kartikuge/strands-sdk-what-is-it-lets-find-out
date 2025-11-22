@@ -33,3 +33,19 @@ def finalize_summary(args: FinalizeSummaryInput) -> FinalizeSummaryOutput:
         f"- {b}" for b in args.bullets
     )
     return FinalizeSummaryOutput(summary=summary)
+
+# ---- Tool registry for the LLM ----
+TOOL_REGISTRY = {
+    "extract_bullets": {
+        "function": extract_bullets,
+        "input_schema": ExtractBulletsInput.model_json_schema(),
+        "output_schema": ExtractBulletsOutput.model_json_schema(),
+        "description": "Extracts bullet points from raw text."
+    },
+    "finalize_summary": {
+        "function": finalize_summary,
+        "input_schema": FinalizeSummaryInput.model_json_schema(),
+        "output_schema": FinalizeSummaryOutput.model_json_schema(),
+        "description": "Turns bullet points into a structured summary."
+    }
+}
