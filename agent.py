@@ -47,6 +47,8 @@ def run_agent(state: SummaryState) -> SummaryState:
             print("[ERROR] invalid JSON — defaulting to extract")
             next_step = "extract"
 
+        print(f'agent determined next_step: {next_step}')
+        print(f'bullets: {state.bullets}')
         # HARD VALIDATION (enforce determinism)
         if state.bullets is None:
             state.step = "extract"
@@ -85,7 +87,9 @@ def run_agent(state: SummaryState) -> SummaryState:
             model="gpt-5-nano",
             input=tool_prompt
         )
-
+        print("\n")
+        print(f'agent response for step two: {resp.output_text}')
+        print("\n")
         # parse LLM output
         try:
             parsed = json.loads(resp.output_text)
@@ -102,7 +106,8 @@ def run_agent(state: SummaryState) -> SummaryState:
             tool_input = ExtractBulletsInput(**args)
             tool_output = extract_bullets(tool_input)
             state.bullets = tool_output.bullets
-
+        print(f'tool output: {tool_output}')
+        print((f'output from agent call will be in parsed["arguments"] = {args}'))
         state.step = "summarize"
         return state
 
@@ -131,6 +136,7 @@ def run_agent(state: SummaryState) -> SummaryState:
             model="gpt-5-nano",
             input=tool_prompt
         )
+        print(resp.output_text)
 
         try:
             parsed = json.loads(resp.output_text)
@@ -145,7 +151,8 @@ def run_agent(state: SummaryState) -> SummaryState:
             tool_input = FinalizeSummaryInput(**args)
             tool_output = finalize_summary(tool_input)
             state.final_summary = tool_output.summary
-
+        print(f'tool output: {tool_output}')
+        print((f'output from agent call will be in parsed["arguments"] = {args}'))
         state.step = "done"
         return state
 
