@@ -1,11 +1,7 @@
 from openai import OpenAI
 from state import SummaryState
-from tools import (
-    extract_bullets,
-    finalize_summary,
-    ExtractBulletsInput,
-    FinalizeSummaryInput,
-)
+from tools import extract_bullets, finalize_summary
+from tools import ExtractBulletsInput, FinalizeSummaryInput
 import os
 from dotenv import load_dotenv
 import json
