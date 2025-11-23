@@ -46,7 +46,7 @@ def run_agent(state: SummaryState) -> SummaryState:
         except:
             print("[ERROR] invalid JSON — defaulting to extract")
             next_step = "extract"
-
+        print(f'current state: {state}')
         print(f'agent determined next_step: {next_step}')
         print(f'bullets: {state.bullets}')
         # HARD VALIDATION (enforce determinism)
