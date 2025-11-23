@@ -46,7 +46,7 @@ def run_agent(state: SummaryState) -> SummaryState:
         except:
             print("[ERROR] invalid JSON — defaulting to extract")
             next_step = "extract"
-
+        print(f'current state: {state}')
         print(f'agent determined next_step: {next_step}')
         print(f'bullets: {state.bullets}')
         # HARD VALIDATION (enforce determinism)
@@ -106,6 +106,7 @@ def run_agent(state: SummaryState) -> SummaryState:
             tool_input = ExtractBulletsInput(**args)
             tool_output = extract_bullets(tool_input)
             state.bullets = tool_output.bullets
+        print(f'tool_input: {tool_input}')
         print(f'tool output: {tool_output}')
         print((f'output from agent call will be in parsed["arguments"] = {args}'))
         state.step = "summarize"
@@ -151,6 +152,7 @@ def run_agent(state: SummaryState) -> SummaryState:
             tool_input = FinalizeSummaryInput(**args)
             tool_output = finalize_summary(tool_input)
             state.final_summary = tool_output.summary
+        print(f'tool_input: {tool_input}')
         print(f'tool output: {tool_output}')
         print((f'output from agent call will be in parsed["arguments"] = {args}'))
         state.step = "done"
