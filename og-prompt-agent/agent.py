@@ -75,11 +75,12 @@ def run_agent(state: SummaryState) -> SummaryState:
 
         You MUST choose exactly one tool to call:
         - extract_bullets
+        use the parameters correctly, from state.text being the input.
 
         Respond ONLY in this JSON format:
         {{
         "tool": "<tool name>",
-        "arguments": {{ ... }}
+        "arguments": {{ bullets: [...], text: "<text>"}}
         }}
         """
 
@@ -129,7 +130,7 @@ def run_agent(state: SummaryState) -> SummaryState:
         Respond ONLY in JSON:
         {{
         "tool": "<tool name>",
-        "arguments": {{ ... }}
+        "arguments": {{ finalize_summary_output: ..., \n bullets: [...], \n text: "<text>", \n step: "<step>"}}
         }}
         """
 
