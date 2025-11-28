@@ -1,17 +1,28 @@
-from state import SummaryState
-from agent import run_agent
+import asyncio
+import logging
+from strands_agents import run_agent
 
-if __name__ == "__main__":
-    text = """
+from agent import SummaryAgent
+from state import SummaryState
+
+
+async def main():
+
+    initial_state = SummaryState()
+
+    agent = SummaryAgent(state=initial_state)
+
+    input_text = """
     - AI agents must follow deterministic workflows
     - Tools allow structured actions
     - State enforces order
     """
 
-    state = SummaryState(text=text)
+    result = await run_agent(agent, input_text)
 
-    while state.step != "done":
-        state = run_agent(state)
+    print("\n=== FINAL SUMMARY ===")
+    print(result.state.final_summary)
 
-    print("\n\n=== FINAL SUMMARY ===")
-    print(state.final_summary)
+
+if __name__ == "__main__":
+    asyncio.run(main())
